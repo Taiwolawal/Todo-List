@@ -12,7 +12,7 @@
         tools:context=".TodoListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_recycle"
+            android:id="@+id/list_recycle_fragment_todo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/floatingButton_todo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

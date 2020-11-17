@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,11 +19,6 @@ class TodoListFragment : Fragment(), TodoListAdapter.TodoClickListener {
 
     private lateinit var todoListRecyclerView: RecyclerView
     private lateinit var todoListDataManager: TodoListDataManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,10 +35,10 @@ class TodoListFragment : Fragment(), TodoListAdapter.TodoClickListener {
             todoListDataManager = ViewModelProviders.of(this).get(TodoListDataManager::class.java)
         }
         val lists = todoListDataManager.readLists()
-        todoListRecyclerView = view.findViewById(R.id.list_recycle)
+        todoListRecyclerView = view.findViewById(R.id.list_recycle_fragment_todo)
         todoListRecyclerView.layoutManager = LinearLayoutManager(activity)
         todoListRecyclerView.adapter = TodoListAdapter(lists,this)
-        val fab = view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val fab = view.findViewById<FloatingActionButton>(R.id.floatingButton_todo)
         fab.setOnClickListener {
             showCreateTodoListDialog()
         }
@@ -65,21 +61,26 @@ class TodoListFragment : Fragment(), TodoListAdapter.TodoClickListener {
                 dialog.dismiss()
                 showTaskListItems(list)
             }
+            myDialog.create().show()
         }
     }
 
+    //Passing data using the nav graph
     private fun showTaskListItems(list: TaskList) {
-        TODO("Not yet implemented")
+        view?.let {
+            val action = TodoListFragmentDirections.actionTodoListFragmentToTaskDetailFragment(list.name)
+            it.findNavController().navigate(action)
+        }
     }
 
     private fun addList(list: TaskList) {
         todoListDataManager.saveList(list)
         val todoAdapter = todoListRecyclerView.adapter as TodoListAdapter
-        todoAdapter
+        todoAdapter.addList(list)
     }
 
     override fun listItemClicked(list: TaskList) {
-        TODO("Not yet implemented")
+        showTaskListItems(list)
     }
 
 

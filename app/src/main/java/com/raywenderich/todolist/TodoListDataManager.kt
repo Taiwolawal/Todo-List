@@ -1,14 +1,17 @@
 package com.raywenderich.todolist
 
 import android.app.Application
+
 import androidx.lifecycle.AndroidViewModel
 import androidx.preference.PreferenceManager
+
 
 class TodoListDataManager(app: Application): AndroidViewModel(app) {
     private val context = app.applicationContext
 
     fun saveList(list: TaskList){
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context).edit()
+//        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context).edit()
         sharedPrefs.putStringSet(list.name, list.tasks.toHashSet())
         sharedPrefs.apply()
     }
